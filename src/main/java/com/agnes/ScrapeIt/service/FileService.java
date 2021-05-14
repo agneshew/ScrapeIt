@@ -18,33 +18,24 @@ public class FileService {
     @Autowired
     FileRepository fileRepository;
 
+
     public FileModel saveFile(MultipartFile file) {
-
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-
         try {
-
             if (filename.contains("...")) {
                 throw new FileSaveException(FileErrors.INVALID_FILE + filename);
             }
-
             FileModel model = new FileModel(filename, file.getContentType(), file.getBytes());
             return fileRepository.save(model);
-
         } catch (Exception e) {
-
             throw new FileSaveException(FileErrors.FILE_NOT_STORED, e);
         }
-
     }
-
     public FileModel getFile(String fileId) {
-
         return fileRepository.findById(fileId).orElseThrow(() -> new FileNotFoundException(FileErrors.FILE_NOT_FOUND + fileId));
     }
 
     public List<FileModel> getListOfFiles(){
-
         return fileRepository.findAll();
     }
 

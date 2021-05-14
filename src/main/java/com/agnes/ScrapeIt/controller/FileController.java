@@ -3,6 +3,7 @@ package com.agnes.ScrapeIt.controller;
 import com.agnes.ScrapeIt.model.FileModel;
 import com.agnes.ScrapeIt.response.FileResponse;
 import com.agnes.ScrapeIt.service.FileService;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -33,7 +34,6 @@ public class FileController {
                 path(model.getFileId()).toUriString();
         return new FileResponse(model.getFileName(), model.getFileType(), fileUri);
     }
-
     @PostMapping("/UploadMultipleFiles")
     public List<FileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
         return Arrays.asList(files).
@@ -41,21 +41,24 @@ public class FileController {
                 map(file -> uploadFile(file)).
                 collect(Collectors.toList());
     }
-
     @GetMapping("/download/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
         FileModel model = fileService.getFile(fileName);
         return ResponseEntity.ok().
                 header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + model.getFileName() + "\"").
                 body(new ByteArrayResource(model.getFileData()));
-
-
     }
-
     @GetMapping("/Allfiles")
     public  List<FileModel>  getListFiles(Model model) {
         List<FileModel> fileDetails = fileService.getListOfFiles();
 
         return fileDetails;
+    }
+    @GetMapping("/Allfiles/json")
+    public String getJsonListFiles(Model model) {
+        List<FileModel> fileDetails = fileService.getListOfFiles();
+        String json = new Gson().toJson(fileDetails);
+
+        return json;
     }
 }

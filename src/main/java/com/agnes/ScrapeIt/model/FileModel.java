@@ -27,15 +27,7 @@ public class FileModel {
     private byte[] fileData;
 
     public FileModel() {
-
     }
-
-    public FileModel(String fileName, String fileType) {
-        this.fileName = fileName;
-        this.fileType = fileType;
-
-    }
-
     public FileModel(String fileName, String fileType, byte[] fileData) {
         this.fileName = fileName;
         this.fileType = fileType;
