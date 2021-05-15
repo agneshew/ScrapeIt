@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/File")
+@RequestMapping("/file")
 public class FileController {
 
     @Autowired
     FileService fileService;
 
-    @PostMapping("/Upload")
+    @PostMapping("/upload")
     public FileResponse uploadFile(@RequestParam("file") MultipartFile file) {
 
         FileModel model = fileService.saveFile(file);
@@ -34,7 +34,7 @@ public class FileController {
                 path(model.getFileId()).toUriString();
         return new FileResponse(model.getFileName(), model.getFileType(), fileUri);
     }
-    @PostMapping("/UploadMultipleFiles")
+    @PostMapping("/multiple")
     public List<FileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
         return Arrays.asList(files).
                 stream().
@@ -48,17 +48,11 @@ public class FileController {
                 header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + model.getFileName() + "\"").
                 body(new ByteArrayResource(model.getFileData()));
     }
-    @GetMapping("/Allfiles")
+    @GetMapping("/allfiles")
     public  List<FileModel>  getListFiles(Model model) {
         List<FileModel> fileDetails = fileService.getListOfFiles();
 
         return fileDetails;
     }
-    @GetMapping("/Allfiles/json")
-    public String getJsonListFiles(Model model) {
-        List<FileModel> fileDetails = fileService.getListOfFiles();
-        String json = new Gson().toJson(fileDetails);
 
-        return json;
-    }
 }
