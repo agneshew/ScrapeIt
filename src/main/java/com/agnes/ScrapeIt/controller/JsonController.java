@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/json")
@@ -18,11 +17,9 @@ public class JsonController {
     @Autowired
     JsonService jsonService;
 
-
     @GetMapping("/list")
     public String getJsonListFiles(Model model) {
-        List<ListResponse> fileDetails = jsonService.getListFilesJson();
-        String json = new Gson().toJson(fileDetails);
-        return json;
+        String listFiles = jsonService.getListFilesJson();
+        return listFiles;
     }
 }

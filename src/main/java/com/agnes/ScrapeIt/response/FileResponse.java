@@ -10,11 +10,9 @@ public class FileResponse {
 
     String fileId = fileModel.getFileId();
     String fileName = fileModel.getFileName();
-    String fileType = fileModel.getFileType();
 
-    public FileResponse(String fileId, String fileName, String fileType) {
+    public FileResponse(String fileId, String fileName) {
         this.fileId = fileId;
         this.fileName = fileName;
-        this.fileType = fileType;
     }
 }

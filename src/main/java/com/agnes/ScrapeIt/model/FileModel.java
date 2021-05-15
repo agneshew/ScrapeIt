@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -19,17 +21,18 @@ public class FileModel {
     private String fileId;
     @Column(name ="file_name")
     private String fileName;
-    @Column(name="file_type")
-    private String fileType;
-    @Lob
-    @Column(name = "file_data")
-    private byte[] fileData;
+//    @Column(name="number_of_rows")
+//    private int numRows;
+//    @Column(name = "created_at")
+//    private DateFormat cratedAt;
+//    @Lob
+//    @Column(name = "file_data")
+//    private byte[] fileData;
 
     public FileModel() {
     }
-    public FileModel(String fileName, String fileType, byte[] fileData) {
+    public FileModel(String fileName) {
         this.fileName = fileName;
-        this.fileType = fileType;
-        this.fileData = fileData;
+
     }
 }
