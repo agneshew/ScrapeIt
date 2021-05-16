@@ -39,13 +39,19 @@ public class FileService {
             throw new FileSaveException(FileErrors.FILE_NOT_STORED, e);
         }
     }
-    public File convert(MultipartFile m) throws IOException {
+    public File convert(MultipartFile m) {
+        try {
         File convFile = new File(m.getOriginalFilename());
         convFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(m.getBytes());
         fos.close();
         return convFile;
+    }
+        catch ( IOException e )
+        {
+            e.printStackTrace();}
+        return null;
     }
     public List<FileModel> getListOfFiles() {
         return fileRepository.findAll();
