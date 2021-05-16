@@ -1,17 +1,12 @@
 package com.agnes.ScrapeIt.controller;
 
 import com.agnes.ScrapeIt.model.FileModel;
-import com.agnes.ScrapeIt.response.FileResponse;
+import com.agnes.ScrapeIt.response.MessageResponse;
 import com.agnes.ScrapeIt.service.FileService;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.util.List;
-
 
 @RestController
 @RequestMapping("/file")
@@ -21,27 +16,29 @@ public class FileController {
     FileService fileService;
 
     @PostMapping("/upload")
-    public FileResponse uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<MessageResponse> uploadFile(@RequestParam("file") MultipartFile file) {
+        String message = "";
+        try {
+            fileService.saveFile(file);
 
-        FileModel model = fileService.saveFile(file);
-        String fileUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").
-                path(model.getFileId()).toUriString();
-        return new FileResponse(model.getFileName(), fileUri);
+            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+        }
     }
-    @DeleteMapping("file/{id}")
-    public void deleteFileById(@PathVariable String id) {
-        fileService.deleteFile(id);
+    @GetMapping("/files")
+    public ResponseEntity<Iterable<FileModel>> getListOfFiles() {
+        return ResponseEntity.ok(fileService.getListOfFiles());
     }
-    @GetMapping("/allfiles")
-    public  List<FileModel>  getListFiles(Model model) {
-        List<FileModel> fileDetails = fileService.getListOfFiles();
-        return fileDetails;
+    @GetMapping("/files/{id}")
+    public ResponseEntity<FileModel> getFileById(@PathVariable Long id) {
+        return ResponseEntity.ok(fileService.getFile(id));
     }
-//    @GetMapping("/Allfiles/json")
-//    public String getJsonListFiles(Model model) {
-//        List<FileModel> fileDetails = fileService.getListOfFiles();
-//        String json = new Gson().toJson(fileDetails);
-//
-//        return json;
-//    }
 }
+
+
+
+
+

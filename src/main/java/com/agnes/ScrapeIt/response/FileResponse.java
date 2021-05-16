@@ -1,17 +1,18 @@
 package com.agnes.ScrapeIt.response;
 
-import com.agnes.ScrapeIt.model.FileModel;
-import lombok.Getter;
+import lombok.*;
+import java.util.Date;
 
 @Getter
+@Setter
 public class FileResponse {
 
-    FileModel fileModel = new FileModel();
+    private Long fileId;
+    private String fileName;
+    private long numRows;
+    private Date createdAt;
 
-    String fileId = fileModel.getFileId();
-    String fileName = fileModel.getFileName();
-
-    public FileResponse(String fileId, String fileName) {
+    public FileResponse(Long fileId, String fileName) {
         this.fileId = fileId;
         this.fileName = fileName;
     }

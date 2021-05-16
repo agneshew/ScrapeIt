@@ -1,11 +1,15 @@
 package com.agnes.ScrapeIt.repository;
 
 import com.agnes.ScrapeIt.model.FileModel;
+import com.agnes.ScrapeIt.response.FileResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
 
-@Repository
-public interface FileRepository extends JpaRepository<FileModel, String> {
+import java.util.List;
 
 
+public interface FileRepository extends JpaRepository<FileModel, Long> {
+
+    @Query("SELECT new FileModel(f.fileId, f.fileName) from FileModel f")
+    List<FileModel> findAll();
 }

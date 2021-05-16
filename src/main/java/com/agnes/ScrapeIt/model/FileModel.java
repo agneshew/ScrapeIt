@@ -2,9 +2,7 @@ package com.agnes.ScrapeIt.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
-import java.text.DateFormat;
 import java.util.Date;
 
 @Getter
@@ -14,25 +12,31 @@ import java.util.Date;
 public class FileModel {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "file_ID", nullable = false, unique = true)
+    private Long fileId;
 
-    @Column(name = "file_ID")
-    private String fileId;
     @Column(name ="file_name")
     private String fileName;
-//    @Column(name="number_of_rows")
-//    private int numRows;
-//    @Column(name = "created_at")
-//    private DateFormat cratedAt;
-//    @Lob
-//    @Column(name = "file_data")
-//    private byte[] fileData;
+
+    @Column(name="number_of_rows")
+    private long numRows;
+
+    @Column(name = "created_at")
+    private Date cratedAt;
+
+    @Column(name = "size")
+    private long size;
+    @Lob
+    @Column(name = "content")
+    private byte[] content;
 
     public FileModel() {
     }
-    public FileModel(String fileName) {
-        this.fileName = fileName;
 
+    public FileModel(Long fileId, String fileName) {
+        this.fileId = fileId;
+        this.fileName = fileName;
     }
 }
+

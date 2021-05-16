@@ -1,14 +1,9 @@
 package com.agnes.ScrapeIt.controller;
 
-import com.agnes.ScrapeIt.response.ListResponse;
 import com.agnes.ScrapeIt.service.JsonService;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/json")
@@ -21,5 +16,10 @@ public class JsonController {
     public String getJsonListFiles(Model model) {
         String listFiles = jsonService.getListFilesJson();
         return listFiles;
+    }
+    @GetMapping("/{id}")
+    public String getJsonListFiles(Model model, @PathVariable Long id) {
+        String file = jsonService.getFileJson(id);
+        return file;
     }
 }
