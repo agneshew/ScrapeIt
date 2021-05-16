@@ -32,9 +32,12 @@ public class FileController {
     public ResponseEntity<Iterable<FileModel>> getListOfFiles() {
         return ResponseEntity.ok(fileService.getListOfFiles());
     }
-    @GetMapping("/files/{id}")
-    public ResponseEntity<FileModel> getFileById(@PathVariable Long id) {
-        return ResponseEntity.ok(fileService.getFile(id));
+    @GetMapping("/file/{id}")
+    public ResponseEntity<byte[]> getFileById(@PathVariable Long id) {
+        FileModel fileModel = fileService.getFile(id);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileModel.getFileName() + "\"")
+                .body(fileModel.getContent());
     }
 }
 

@@ -18,7 +18,7 @@ public class JsonController {
         return listFiles;
     }
     @GetMapping("/{id}")
-    public String getJsonListFiles(Model model, @PathVariable Long id) {
+    public String getJsonFileById(Model model, @PathVariable Long id) {
         String file = jsonService.getFileJson(id);
         return file;
     }
