@@ -21,7 +21,6 @@ import java.util.Date;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@SpringBootTest
 class ScrapeItApplicationTests {
 
 	@Autowired
@@ -32,7 +31,6 @@ class ScrapeItApplicationTests {
 
 	@Test
 	@Rollback(false)
-	//void contextLoads() { }
 	void testInsertFile() throws IOException {
 		Path pathTestFile = Paths.get("/Users/agnieszkahewusz/Desktop/abc.rtf");
 		File file = new File(pathTestFile.toString());
